@@ -37,9 +37,9 @@ async function getFiles(req: Request, res: Response) {
             // create message object to send to the server
             const message = {
               data: [],
-              fileHash: req.params.fileName, // assuming you have a file hash passed as an argument
+              fileHash: req.params.fileHash, // assuming you have a file hash passed as an argument
               type: "getFile",
-              fileName: "unknow",
+              fileName: req.params.fileName,
               time: new Date(),
             };
 
@@ -51,11 +51,13 @@ async function getFiles(req: Request, res: Response) {
 
             client.on("data", (data) => {
               chunks.push(data.toString());
+              console.log(data.toString());
             });
 
             client.on("end", () => {
               let jsonString = chunks.join("");
               let jsonData = JSON.parse(jsonString);
+              console.log(jsonData);
 
               resolve(jsonData);
             });
@@ -82,6 +84,8 @@ async function getFiles(req: Request, res: Response) {
     }
   }
 
+  console.log(fileArray);
+
   fileArray.sort(function (a: any, b: any) {
     let numA = parseInt(a.hash.split("-")[1]);
     let numB = parseInt(b.hash.split("-")[1]);
@@ -103,11 +107,9 @@ async function getFiles(req: Request, res: Response) {
 
   const buffer = Buffer.from(bufferArray);
 
-  fs.writeFileSync(fileArray[0].fileName, buffer);
-
-  res.json({
-    message: "File Write Succesfully",
-  });
+  fs.writeFileSync(req.params.fileName, buffer);
+  res.download("./" + req.params.fileName);
+  fs.unlinkSync(req.params.fileName);
 }
 
 export default { getFiles };

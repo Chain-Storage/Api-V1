@@ -103,8 +103,9 @@ async function sendFiles(req: Request, res: Response): Promise<void> {
   res.json({
     message: "data sended succesfully",
     data: {
-      hash: readFiles.fileHash,
       name: readFiles.fileName,
+      hash: readFiles.fileHash,
+      size: file.size,
     },
   });
 }

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import filesRouter from "./routers/files.router";
 import { connect } from "mongoose";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const port: number = Number(process.env.PORT) || 4000;
 
 app.use(fileUpload());
 app.use(express.json());
+app.use(cors());
 
 app.use("/", filesRouter);
 

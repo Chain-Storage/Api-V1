@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import getFilesController from "../controllers/getFiles.controller";
 import sendFileController from "../controllers/sendFile.controller";
+import contractsController from "../controllers/contracts.controller";
 
 const router: Router = express.Router();
 
@@ -13,7 +14,11 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 */
 
 // define the home page route
-router.get("/getFiles/:fileName", getFilesController.getFiles);
+router.get("/getFiles/:fileHash/:fileName", getFilesController.getFiles);
+router.get(
+  "/getFilesFromContract/:userAddress",
+  contractsController.getFileContract
+);
 
 router.post("/sendFiles", sendFileController.sendFiles);
 
