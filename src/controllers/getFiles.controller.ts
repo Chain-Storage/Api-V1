@@ -109,7 +109,6 @@ async function getFiles(req: Request, res: Response) {
 
   fs.writeFileSync(req.params.fileName, buffer);
   res.download("./" + req.params.fileName);
-  fs.unlinkSync(req.params.fileName);
 }
 
 export default { getFiles };
