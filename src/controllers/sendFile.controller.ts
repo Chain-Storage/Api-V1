@@ -105,7 +105,7 @@ async function sendFiles(req: Request, res: Response): Promise<void> {
     data: {
       name: readFiles.fileName,
       hash: readFiles.fileHash,
-      size: file.size,
+      size: file.size.toString(),
     },
   });
 }
